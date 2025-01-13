@@ -18,7 +18,7 @@ kotlin {
             jvmTarget.set(JvmTarget.JVM_11)
         }
     }
-    
+
     listOf(
         iosX64(),
         iosArm64(),
@@ -29,28 +29,26 @@ kotlin {
             isStatic = true
         }
     }
-    
+
     jvm("desktop")
-    
+
     sourceSets {
         val desktopMain by getting
-        
+
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
-
             implementation(libs.koin.android)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
             implementation(compose.foundation)
-            implementation(compose.material)
+            implementation(compose.material3)
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtime.compose)
-
 
             implementation(libs.compose.navigation)
             implementation(libs.landscapist.coil3)
@@ -88,6 +86,7 @@ android {
             isMinifyEnabled = false
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
@@ -96,17 +95,19 @@ android {
 
 dependencies {
     debugImplementation(compose.uiTooling)
-}
 
-room {
-    schemaDirectory("$projectDir/schemas")
-}
-
-dependencies {
+    // KSP dependencies for Android
     add("kspAndroid", libs.room.compiler)
+
+    // KSP dependencies for iOS (if you need Room on iOS, else remove)
     add("kspIosX64", libs.room.compiler)
     add("kspIosArm64", libs.room.compiler)
     add("kspIosSimulatorArm64", libs.room.compiler)
+}
+
+room {
+    // Room schema location
+    schemaDirectory("D:/D Drive/Projects/KMP/DemoApp/composeApp/schemas")
 }
 
 compose.desktop {
